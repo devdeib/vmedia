@@ -1,0 +1,114 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<head>
+    <title>User Profile</title>
+    <style>
+        /* CSS styles for the profile page */
+        .profile-container {
+            display: flex;
+            align-items: center;
+        }
+        
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+        }
+        
+        .username {
+            font-size: 24px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        .edit-link {
+            font-size: 16px;
+            color: blue;
+            text-decoration: underline;
+        }
+        
+        .bio {
+            margin-top: 20px;
+        }
+        
+        .posts-container {
+            margin-top: 20px;
+        }
+        
+        .post {
+            margin-bottom: 10px;
+        }
+        
+        .post-title {
+            font-weight: bold;
+        }
+        
+        .comments {
+            margin-top: 5px;
+            margin-left: 20px;
+        }
+        
+        .comment {
+            margin-bottom: 5px;
+            color: gray;
+        }
+        
+        .separator {
+            margin-top: 20px;
+            border-top: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        {% if user.userprofile.photo %}
+            <img class="profile-photo" src="{{ user.userprofile.photo.url }}" alt="">
+        {% else %}
+            <img class="profile-photo" src="{% static 'imgs/default.webp' %}" alt="Profile Photo">
+        {% endif %}
+        <div class="user-info">
+            <h2 class="username">{{ user_profile.user.username }}</h2>
+            <a href="{% url 'vapp:edit_profile' %}" class="edit-link">Edit Profile</a>
+        </div>
+    </div>
+    <div class="separator"></div>
+    <div class="bio">
+        <p>{{ user_profile.user.bio }}</p>
+    </div>
+    
+    <div class="posts-container">
+            {% for post in posts %}
+                <h2>
+                <a href="{{ post.get_absolute_url }}">
+                {{ post.title }}
+                </a>
+                </h2>
+                <!-- Add delete button here -->
+                <p class="tags">Tags: 
+                {% for tag in post.tags.all %}
+                    <a href="{% url "vapp:post_list_by_tag" tag.slug %}">
+                    {{ tag.name }}
+                    </a>
+                    {% if not forloop.last %}, {% endif %}
+                {% endfor %}</p>
+                {{ post.body|truncatewords:30|linebreaks }}
+                <p class="date"> Published {{ post.publish }} </p>
+                <form method="POST" action="{% url 'vapp:delete_post' post.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            {% endfor %}
+    </div>
+    
+    
+</body>
+
+{% endblock %}

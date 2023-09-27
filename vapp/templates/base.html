@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Start your development with v landing page.">
+    <meta name="author" content="Devcrud">
+    <link rel="stylesheet" href="vapp/static/css/bootstrap.min.css">
+    <title>v media</title>
+    <link rel="stylesheet" href="vapp/static/vendors/themify-icons/css/themify-icons.css">
+	  <link rel="stylesheet" href="vapp/static/css/pigga.css">
+
+  
+    <link
+      rel="shortcut icon"
+      type="image/png"
+      href="{% static 'img/logo.png' %}"
+    />
+
+    <link
+      rel="preload"
+      as="style"
+      href="{% static 'css/pigga.css' %}"
+      onload="this.rel = 'stylesheet'"
+    />
+
+  </head>
+
+  <body>
+    <!--Header content-->
+    {% include 'partials/_header1.html' %}
+
+    <main>{% block content %} {% endblock %}</main>
+
+    <!--Footer content-->
+    {% include 'partials/_footer.html' %}
+  </body>
+</html>

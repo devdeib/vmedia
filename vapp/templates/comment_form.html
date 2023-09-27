@@ -1,0 +1,8 @@
+<form action="{% url "vapp:post_comment" post.id %}" method="post">
+    {% csrf_token %}
+    <p>
+        <label for="{{ form.body.id_for_label }}"></label><br>
+        <textarea name="{{ form.body.name }}" id="{{ form.body.id_for_label }}" rows="2" cols="30"></textarea>
+    </p>
+    <p><input type="submit" value="Add comment"></p>
+</form>

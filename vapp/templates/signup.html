@@ -1,0 +1,49 @@
+{% extends 'loginbase.html' %}
+{% block title %}Sign Up{% endblock %} 
+{% load static %}
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center" style="padding-top: 80px; padding-bottom: 80px;">
+        <div class="col-md-6">
+            <div class="card shadow">
+                <div class="card-body text-center">
+                    <img src="{% static 'imgs/navbar-brand.png' %}" alt="Logo" style="width: 150px; height: auto;">
+                    <h2>Signup</h2>
+                    <h1></h1>
+        
+                    <form method="POST" action="{% url 'vapp:signup' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                          <p>Username: </p>
+                          {{ form.username }}
+                          <p></p>
+                          <p>Email: </p>
+                          {{ form.email }}
+                          <p></p>
+                          <p>Password: </p>
+                          {{ form.password1 }}
+                          <p></p>
+                          <p>Password Confirmation: </p>
+                          {{ form.password2 }}
+                          <p>Choose a Profile Photo: </p>
+                          {{ form.photo }}
+                        </div>
+                        <p>Have an account? Login <a href="/login">Here</a>!</p>
+                        <button type="submit" class="btn btn-primary" value = "Register">Register</button>
+                    </form>
+                </div>
+            </div>
+            <div class="card shadow mt-4">
+              <div class="card-body text-center">
+                    {% load socialaccount %}
+                    <a href="{% provider_login_url 'google' %}" class="btn btn--primary btn-block">
+                        <img src="{% static 'imgs/googlelogo.png' %}" alt="Google Logo" style="width: 24px; height: 24px; margin-right: 8px;">
+                        Signup with Google
+                    </a>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

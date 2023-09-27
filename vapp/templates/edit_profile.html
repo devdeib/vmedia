@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load widget_tweaks %}
+{% block content %}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-4">
+                <h5 class="card-title">Profile Photo</h5>
+                {% if user.userprofile.photo %}
+                    <img class="rounded-circle" src="{{ user.userprofile.photo.url }}" width="150" height="150">
+                    <div class="mt-3">
+                        <form action="{% url 'vapp:delete_photo' %}" method="post" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete Photo</button>
+                        </form>
+                    </div>
+                {% else %}
+                    <!-- Display a default photo or placeholder image -->
+                    <img class="rounded-circle" src="{% static 'imgs/default.webp' %}" width="150" height="150">
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Edit Profile</h5>
+                        {% if messages %}
+                            {% for message in messages %}
+                                {% if message.tags == 'alert' %}
+                                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                 </div>
+                                {% endif %}
+                            {% endfor %}
+                            {% endif %}
+                        <form method="POST" action="" enctype="multipart/form-data" onsubmit="showSessionExpiredAlert()">
+                            {% csrf_token %}
+                            {% for field in form %}
+                                {% if field.name != 'photo' %}
+                                    {{ field.label_tag }}
+                                    {% if field.name == 'username' %}
+                                        {{ field|add_class:"form-control" }}
+                                        <small class="form-text text-muted" placeholder="{{ field.value }}">Leave blank if you don't want to change the username.</small>
+                                    {% elif field.name == 'email' %}
+                                        {{ field|add_class:"form-control" }}
+                                        <small class="form-text text-muted" placeholder="{{ field.value }}">Leave blank if you don't want to change the email.</small>
+                                    {% elif field.name == 'password' %}
+                                        {{ field|add_class:"form-control" }}
+                                        <small class="form-text text-muted">Leave blank if you don't want to change the password.</small>
+                                        <script>
+                                            function showSessionExpiredAlert() {
+                                                alert('Session expired! Please log in again.');
+                                            }
+                                        </script>
+                                    {% else %}
+                                        {{ field|add_class:"form-control" }}
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            <div class="form-group">
+                                <label for="id_photo">Upload New Photo</label>
+                                <input type="file" class="form-control-file" id="id_photo" name="photo">
+                            </div>
+                            <input class="btn btn-primary" type="submit" value="Update Information">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

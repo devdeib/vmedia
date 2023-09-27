@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}Share a post{% endblock %}
+{% block content %}
+<div class="container">
+  <div class="card">
+    {% if sent %}
+      <h1>E-mail successfully sent</h1>
+      <p>"{{ post.title }}" was successfully sent to {{ form.cleaned_data.to }}.</p>
+    {% else %}
+      <h1>Share "{{ post.title }}" by e-mail</h1>
+      <form class="form p" method="post">
+        <p>To:</p>
+        {{ form.to }}
+        <p>Comment: </p>
+        {{ form.comments }}
+        <p>Name:</p>
+        {{ form.name }}
+        <p>Email:</p>
+        {{ form.email }}
+        <p></p>
+        {% csrf_token %}
+        <input type="submit" value="Send e-mail">
+      </form>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
+
+<style>
+    .card {
+        width: 400px;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        border-radius: 5px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        background-color: #fff;
+      }
+      
+      .card form p {
+        text-align: center;
+      }
+      
+      .card form input[type="text"],
+      .card form textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+      }
+      
+      .card form input[type="submit"] {
+        width: 100%;
+        padding: 10px;
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      
+      .card form input[type="submit"]:hover {
+        background-color: #45a049;
+      }
+</style>
