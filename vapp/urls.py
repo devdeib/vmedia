@@ -18,6 +18,7 @@ urlpatterns = [
     path('<int:year>/<int:month>/<int:day>/<slug:post>/', views.post_detail, name='post_detail'),
     path('create_post/', views.create_post, name="create_post"),
     path('<int:post_id>/share/', views.post_share, name='post_share'),
+    path('search/', views.search, name='search'),
     path('delete_post/<int:post_id>/', views.delete_post, name='delete_post'),
     path('like/<int:post_id>/', views.like_post, name='like_post'),
     path('login/', views.login, name='login'),

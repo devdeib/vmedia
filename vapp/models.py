@@ -5,6 +5,9 @@ from django.urls import reverse
 from taggit.managers import TaggableManager
 from django.contrib.auth import get_user_model
 # Create your models here.
+
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
     name = models.CharField(max_length=200, null=True)

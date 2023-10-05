@@ -1,13 +1,15 @@
 {% load static %}
-
 <header>
     <div class="container"></div>
-
-    <nav class="nav-second navbar custom-navbar navbar-expand-sm navbar-dark bg-dark sticky-top">
+    <nav class="nav-second navbar custom-navbar navbar-expand-sm sticky-top" style="background-color: #1d1d1d;">
         <div class="container">
-            <a href="{% url 'vapp:post_list' %}" class="navbar-brand">
-                <img src="{% static 'imgs/navbar-brand.png' %}" alt="Logo" style="height: 40px; width: auto;">
-            </a>
+            <form class="form-inline" action="{% url 'vapp:search' %}" method="GET">
+                <a href="{% url 'vapp:post_list' %}" class="navbar-brand">
+                    <img src="{% static 'imgs/navbar-brand.png' %}" alt="Logo" style="height: 40px; width: auto;">
+                </a>
+                <input class="form-control mx-sm-3 form-control transparent-search" type="text" name="q" placeholder="Search...">
+                <button class="btn btn-secondary btn-sm" type="submit">Search</button>
+            </form>
 
             <button class="navbar-toggler ml-auto" type="button" data-toggle="collapse"
                 data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -16,16 +18,16 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto align-items-center">
                     <li class="nav-item">
                         {% if user.is_authenticated %}
                             {% if user.userprofile.photo %}
                                 <a href="{% url 'vapp:profile' %}" class="btn-sm">
-                                    <img class="rounded-circle" src="{{ user.userprofile.photo.url }}" alt="Profile Photo" width="30" height="30">
+                                    <img class="rounded-circle" src="{{ user.userprofile.photo.url }}" alt="Profile Photo" width="35" height="35">
                                 </a>
                             {% else %}
                                 <a href="{% url 'vapp:profile' %}" class="btn-sm">
-                                    <img class="rounded-circle" src="{% static 'imgs/default.webp' %}" alt="Default Profile Photo" width="30" height="30">
+                                    <img class="rounded-circle" src="{% static 'imgs/default.webp' %}" alt="Default Profile Photo" width="35" height="35">
                                 </a>
                             {% endif %}
                         {% else %}
@@ -34,11 +36,20 @@
                     </li>
                     <li class="nav-item">
                         {% if user.is_authenticated %}
-                            <a href="{% url 'logout' %}" class="btn btn-primary btn-sm">Logout</a>
+                            <a href="{% url 'logout' %}" class="btn btn-danger btn-sm">Logout</a>
                         {% endif %}
                     </li>
+                    
                 </ul>
             </div>
         </div>
     </nav>
 </header>
+<style>
+    .transparent-search {
+        background-color: #2f2f2f !important;
+        border-color: #2f2f2f !important;
+        border-radius: 20px;
+        color: white;
+    }
+</style>

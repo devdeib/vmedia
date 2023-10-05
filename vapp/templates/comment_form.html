@@ -1,8 +1,27 @@
-<form action="{% url "vapp:post_comment" post.id %}" method="post">
+{% load static %}
+<form class="form-inline" action="{% url 'vapp:post_comment' post.id %}" method="post">
+    <div class="avatar">
+        {% if user.userprofile.photo %}
+        <a href="{% url 'vapp:profile' %}" class="avatar">
+          <img class="avatar" src="{{ user.userprofile.photo.url }}" alt="Profile Photo" width="50" height="50">
+        </a>
+        {% else %}
+        <a href="{% url 'vapp:profile' %}" class="avatar">
+          <img class="avatar" src="{% static 'imgs/default.webp' %}" alt="Default Profile Photo" width="50" height="50">
+        </a>
+        {% endif %}
+    </div>
     {% csrf_token %}
     <p>
         <label for="{{ form.body.id_for_label }}"></label><br>
-        <textarea name="{{ form.body.name }}" id="{{ form.body.id_for_label }}" rows="2" cols="30"></textarea>
+        <textarea class="textarea" name="{{ form.body.name }}" id="{{ form.body.id_for_label }}" rows="2" cols="30"></textarea>
     </p>
-    <p><input type="submit" value="Add comment"></p>
+    <p><input class="form-control mx-sm-3 form-control-sm" type="submit" value="Add comment"></p>
 </form>
+<style>{
+  border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+
+</style>

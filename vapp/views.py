@@ -74,9 +74,9 @@ def profile_edit(request):
 
     context = {'form': form}
     return render(request, 'edit_profile.html', context)
-   
-   
-   
+
+
+
 def change_password(request):
     user = request.user
     form = EditProfileForm(instance=user)
@@ -168,6 +168,12 @@ def post_list(request, tag_slug=None):
     return render(request, 'feed.html', {'posts': posts, 'tag': tag, 'form': form})
 
 
+def search(request):
+    query = request.GET.get('q')
+    results = Post.published.filter(body__icontains=query)
+    return render(request, 'search_results.html', {'results': results, 'query': query})
+
+
 def like_post(request, post_id):
     post = get_object_or_404(Post, id=post_id)
     user = request.user
@@ -176,6 +182,9 @@ def like_post(request, post_id):
         post.likes.remove(user)
     else:
         post.likes.add(user)
+
+    post.updated = timezone.now()  # Set the updated time to the current time
+    post.save()
 
     return redirect('vapp:post_list')
 
@@ -240,6 +249,7 @@ def post_comment(request, post_id):
     else:
         form = CommentForm()
 
+    
     
     return render(request, 'feed.html', {'post': post, 'form': form, 'comment': comment})
 def post_share(request, post_id):

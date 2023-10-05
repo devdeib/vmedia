@@ -53,14 +53,14 @@
     {% endif %}
 
     {{ post.body|truncatewords:30|linebreaks }}
-    <p class="tags">Tags:
+    
       {% for tag in post.tags.all %}
       <a href="{% url 'vapp:post_list_by_tag' tag.slug %}">
         {{ tag.name }}
       </a>
       {% if not forloop.last %}, {% endif %}
       {% endfor %}
-    </p>
+  
     <div class="post-actions">
       <a href="{% url 'vapp:like_post' post.id %}" class="action-link {% if user_likes_post %}liked{% endif %}">
         <i class="fas fa-thumbs-up"></i> 
@@ -74,38 +74,28 @@
     </div>
 
     <!-- Comment Box -->
-    <div class="avatar">
-      {% if user.userprofile.photo %}
-      <a href="{% url 'vapp:profile' %}" class="avatar">
-        <img class="avatar" src="{{ user.userprofile.photo.url }}" alt="Profile Photo" width="50" height="50">
-      </a>
-      {% else %}
-      <a href="{% url 'vapp:profile' %}" class="avatar">
-        <img class="avatar" src="{% static 'imgs/default.webp' %}" alt="Default Profile Photo" width="50" height="50">
-      </a>
-      {% endif %}
-    </div>
     {% include "comment_form.html" %}
     {% if post.latest_comment %}
+      <hr>
       <div class="latest-comment">
         <div class="avatar">
-          {% if post.latest_comment.photo %}
-             <img class="avatar" src="{{ post.latest_comment.photo.url }}" alt="Profile Photo" width="50" height="50">
-          {% else %}
-             <img class="avatar" src="default_avatar.png" alt="Default Profile Photo" width="50" height="50">
-          {% endif %} 
+            {% if post.latest_comment.photo %}
+                <img class="avatar" src="{{ post.latest_comment.photo.url }}" alt="Profile Photo" width="50" height="50">
+            {% else %}
+                <img class="avatar" src="default_avatar.png" alt="Default Profile Photo" width="50" height="50">
+            {% endif %} 
         </div>
         <div class="comment-details">
-        <div class="comment-header">
-          <h5>{{ post.latest_comment.name }}</h5>
-        </div>
-        <div class="comment-body">
-          <p>{{ post.latest_comment.body }}</p>
+            <div class="comment-header">
+                <h5>{{ post.latest_comment.name }}</h5>
+            </div>
+            <div class="comment-body">
+                <p>{{ post.latest_comment.body }}</p>
+            </div>
         </div>
       </div>
-  </div>
     {% endif %}
-</div>
+  </div>
   {% endfor %}
 </div>
 
@@ -115,24 +105,22 @@
   .latest-comment {
     display: flex;
     align-items: center;
-    margin-top: 10px;
+  }
+
+  .avatar {
+      margin-right: 10px;
   }
   
-  .latest-comment .avatar {
-    margin-right: 10px;
+  .comment-details {
+      flex-grow: 1;
   }
   
-  .latest-comment .comment-details {
-    flex-grow: 1;
+  .comment-header h5 {
+      margin-bottom: 5px;
   }
   
-  .latest-comment .comment-header {
-    display: flex;
-    align-items: center;
-  }
-  
-  .latest-comment .comment-body {
-    margin-top: 5px;
+  .comment-body p {
+      margin: 0;
   }
 
   .liked .like-text {
@@ -188,6 +176,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
   }
 
   .post {
